@@ -56,32 +56,37 @@ function addBook() {
 
 function makeBook(bookObject) {
   const bookItemTitle = document.createElement("h3");
+  bookItemTitle.setAttribute("data-testid", "bookItemTitle");
   bookItemTitle.innerText = bookObject.title;
 
   const bookItemAuthor = document.createElement("p");
+  bookItemAuthor.setAttribute("data-testid", "bookItemAuthor");
   bookItemAuthor.innerText = bookObject.author;
 
   const bookItemYear = document.createElement("p");
+  bookItemYear.setAttribute("data-testid", "bookItemYear");
   bookItemYear.innerText = bookObject.year;
 
-  const textcontainer = document.createElement("div");
-  textcontainer.classList.add("inner");
-  textcontainer.append(bookItemTitle, bookItemAuthor, bookItemYear);
-
   const container = document.createElement("div");
+   container.setAttribute("data-bookid", bookObject.id);
+   container.setAttribute("data-testid", "bookItem");
   container.classList.add("item", "shadow");
-  container.append(textcontainer);
-  container.setAttribute("id", `book-${bookObject.id}`);
 
   if (bookObject.isComplete) {
     const iscompletebutton = document.createElement("button");
-    iscompletebutton.classList.add("undo-button");
+    iscompletebutton.setAttribute("data-testid", "bookItemIsCompleteButton");
+    iscompletebutton.innerText = bookObject.isComplete ? "Belum selesai dibaca" : "Selesai dibaca";
     iscompletebutton.addEventListener("click", function () {
-      undoBookFromCompleted(bookObject.id);
+      if (bookObject.isComplete) {
+        undoBookFromCompleted(bookObject.id);
+      } else {
+        addBookToCompleted(bookObject.id);
+      } 
     });
 
     const deleteButton = document.createElement("button");
-    deleteButton.classList.add("delete-button");
+    deleteButton.setAttribute("data-testid", "bookItemDeleteButton");
+    deleteButton.innerText = "Hapus Buku";
     deleteButton.addEventListener("click", function () {
       removeBookFromCompleted(bookObject.id);
     });
@@ -89,9 +94,17 @@ function makeBook(bookObject) {
     container.append(iscompletebutton, deleteButton);
   } else {
     const checkButton = document.createElement("button");
-    checkButton.classList.add("check-button");
+    checkButton.setAttribute("data-testid", "bookItemCheckButton");
+    checkButton.innerText = "Selesai dibaca";
     checkButton.addEventListener("click", function () {
       addBookToCompleted(bookObject.id);
+    });
+
+    const editButton = document.createElement("button");
+    editButton.setAttribute("data-testid", "bookItemEditButton");
+    editButton.innerText = "Edit Buku";
+    editButton.addEventListener("click", function () {
+      // Implementasi fungsi edit buku di sini
     });
     container.append(checkButton);
   }
