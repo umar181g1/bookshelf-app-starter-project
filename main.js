@@ -24,9 +24,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+  if (isStorageExist()) {
+    loadDataFromStorage();  
+  }
+});
+
   function generateId() {
     return +new Date();
   }
+  
 
   function generateBookObject(id, title, author, year, isComplete) {
     return {
@@ -41,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function addBook() {
     const title = document.getElementById("bookFormTitle").value;
     const author = document.getElementById("bookFormAuthor").value;
-    const year = parseInt(document.getElementById("bookFormYear").value);
+    const year = Number(document.getElementById("bookFormYear").value);
     const isComplete = document.getElementById("bookFormIsComplete").checked;
 
     const generatedID = generateId();
@@ -246,16 +252,11 @@ document.addEventListener("DOMContentLoaded", function () {
     document.dispatchEvent(new Event(RENDER_EVENT));
   }
 
-  document.addEventListener("DOMContentLoaded", function () {
-    if (isStorageExist()) {
-      loadDataFromStorage();
-    }
-  });
 
   function updateBook(bookId) {
     const title = document.getElementById("bookFormTitle").value;
   const author = document.getElementById("bookFormAuthor").value;
-  const year = parseInt(document.getElementById("bookFormYear").value);
+  const year = Number(document.getElementById("bookFormYear").value);
   const isComplete = document.getElementById("bookFormIsComplete").checked;
 
   const index = findBookIndex(bookId);
@@ -276,4 +277,4 @@ document.addEventListener("DOMContentLoaded", function () {
   saveData();
   alert("Buku berhasil diperbarui");
   }
-});
+
